@@ -50,17 +50,17 @@ Ya están descargadas y renombradas en `src/assets/images/` (ver `LEEME.md`). Es
 
 ## Despliegue en Cloudflare (una sola vez)
 
-1. `npx wrangler login`
-2. Crear la base de datos: `npx wrangler d1 create tanques-db` → copiar el `database_id` en `wrangler.jsonc`.
-3. `npm run db:migrate:remote`
-4. Turnstile: en el panel → *Turnstile* → *Add widget* con tu dominio.
-   - Clave pública → variable de build `PUBLIC_TURNSTILE_SITE_KEY`.
-   - Clave secreta → `npx wrangler secret put TURNSTILE_SECRET_KEY`.
-5. Conectar el repo en *Workers & Pages → Create → Import a repository* (Workers Builds).
+1. **Base de datos D1:** en el panel de Cloudflare → *Storage & Databases → D1 → Create database*, nombre `tanques-db`.
+   Copia el *Database ID*, pégalo en `wrangler.jsonc` y descomenta el bloque `d1_databases`. La tabla se crea sola
+   con la primera solicitud (no hace falta correr migraciones).
+2. **Turnstile:** panel → *Turnstile* → *Add widget* con tu dominio.
+   - Clave pública → variable de build `PUBLIC_TURNSTILE_SITE_KEY` (*Settings → Build → Variables*).
+   - Clave secreta → variable secreta `TURNSTILE_SECRET_KEY` del Worker (*Settings → Variables and Secrets*).
+3. Conectar el repo (ya hecho: Worker `tanquesdeagua`) en *Workers & Pages → Create → Import a repository* (Workers Builds).
    Comando de build: `npm run build` · Comando de deploy: `npx wrangler deploy`.
-6. Dominio: descomentar `routes` en `wrangler.jsonc` con tu dominio (`custom_domain: true`).
-7. Activar **Web Analytics** en el panel para el dominio.
-8. (Opcional) Email Routing: activar en el dominio, verificar tu correo y descomentar `send_email` en `wrangler.jsonc`; poner el remitente en `NOTIFY_EMAIL`.
+4. Dominio: descomentar `routes` en `wrangler.jsonc` con tu dominio (`custom_domain: true`).
+5. Activar **Web Analytics** en el panel para el dominio.
+6. (Opcional) Email Routing: activar en el dominio, verificar tu correo y descomentar `send_email` en `wrangler.jsonc`; poner el remitente en `NOTIFY_EMAIL`.
 
 ### Ver las solicitudes recibidas
 ```bash

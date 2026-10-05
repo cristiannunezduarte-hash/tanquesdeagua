@@ -11,7 +11,7 @@ import { EmailMessage } from 'cloudflare:email';
 
 interface Env {
   ASSETS: Fetcher;
-  DB: D1Database;
+  DB?: D1Database;
   FORM_LIMITER?: RateLimit;
   EVENTS?: AnalyticsEngineDataset;
   MAILER?: SendEmail;
@@ -87,6 +87,12 @@ async function handleContact(request: Request, env: Env, ctx: ExecutionContext):
     if (!valid) return fail('No pudimos verificar que eres humano. Recarga la página e inténtalo de nuevo.', 403);
   }
 
+  if (!env.DB) {
+    console.error('Binding DB (D1) no configurado: la solicitud no se guardó', data);
+    return fail('El formulario no está disponible en este momento. Escríbenos por WhatsApp o llámanos.', 503);
+  }
+  await ensureSchema(env.DB);
+
   const cf = (request as Request & { cf?: IncomingRequestCfProperties }).cf;
   await env.DB.prepare(
     `INSERT INTO solicitudes
@@ -116,6 +122,24 @@ async function handleContact(request: Request, env: Env, ctx: ExecutionContext):
   ctx.waitUntil(notify(env, data).catch((err) => console.error('Error enviando correo', err)));
 
   return wantsJson ? json({ ok: true }) : redirect('/gracias');
+}
+
+// Crea la tabla si no existe (una vez por instancia), para no depender de correr migraciones a mano.
+// Mantener sincronizado con migrations/0001_crear_solicitudes.sql
+let schemaReady = false;
+async function ensureSchema(db: D1Database): Promise<void> {
+  if (schemaReady) return;
+  await db.batch([
+    db.prepare(`CREATE TABLE IF NOT EXISTS solicitudes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      creado_en TEXT NOT NULL DEFAULT (datetime('now')),
+      nombre TEXT NOT NULL, telefono TEXT NOT NULL, email TEXT, ciudad TEXT, servicio TEXT,
+      capacidad TEXT, mensaje TEXT, pagina TEXT, utm_source TEXT, utm_medium TEXT, utm_campaign TEXT,
+      pais TEXT, user_agent TEXT, estado TEXT NOT NULL DEFAULT 'nueva')`),
+    db.prepare('CREATE INDEX IF NOT EXISTS idx_solicitudes_creado ON solicitudes (creado_en DESC)'),
+    db.prepare('CREATE INDEX IF NOT EXISTS idx_solicitudes_estado ON solicitudes (estado)'),
+  ]);
+  schemaReady = true;
 }
 
 async function handleEvent(request: Request, env: Env): Promise<Response> {

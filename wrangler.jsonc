@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "dimafer-hermaco-tanques",
+  "name": "tanquesdeagua",
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
@@ -16,15 +16,16 @@
   },
 
   // Base de datos D1 (SQLite) para guardar las solicitudes de cotización.
-  // Crear con:  npx wrangler d1 create tanques-db  y pegar aquí el database_id.
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "tanques-db",
-      "database_id": "REEMPLAZAR-CON-EL-ID-DE-D1",
-      "migrations_dir": "migrations"
-    }
-  ],
+  // ACTIVAR: crear la base en el panel (Storage & Databases → D1 → Create, nombre "tanques-db"),
+  // copiar su "Database ID" y descomentar este bloque. La tabla se crea sola en la primera solicitud.
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "tanques-db",
+  //     "database_id": "PEGAR-AQUI-EL-DATABASE-ID",
+  //     "migrations_dir": "migrations"
+  //   }
+  // ],
 
   // Rate limiting nativo de Workers (gratis) contra spam en el formulario.
   "ratelimits": [
