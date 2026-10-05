@@ -32,8 +32,7 @@
   ],
 
   // Analítica propia de eventos (clics a WhatsApp, envíos de formulario).
-  // ACTIVAR: habilitar Analytics Engine en el panel (Workers → Analytics Engine) y descomentar.
-  // "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "tanques_eventos" }],
+  "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "tanques_eventos" }],
 
   "vars": {
     // Correo verificado en Email Routing que recibirá aviso de cada cotización (opcional).
