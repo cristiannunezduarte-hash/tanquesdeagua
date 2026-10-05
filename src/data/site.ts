@@ -13,8 +13,8 @@
  */
 
 export const site = {
-  // TODO: confirmar el dominio que está en Cloudflare (sin barra final)
-  url: 'https://www.dimaferyhermaco.com',
+  // Dominio oficial (sin barra final). Es la URL "canónica" que verá Google.
+  url: 'https://tanquesdeagua.co',
   name: 'Dimafer & Hermaco',
   legalName: 'Dimafer & Hermaco S.A.S.',
   tagline: 'Tanques de agua',

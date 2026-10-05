@@ -44,10 +44,7 @@
   // "send_email": [{ "name": "MAILER", "destination_address": "tu-correo@gmail.com" }],
 
   "observability": { "enabled": true },
-  "workers_dev": true
-  // Dominio propio: descomentar y ajustar cuando se pase a producción
-  // "routes": [
-  //   { "pattern": "www.dimaferyhermaco.com", "custom_domain": true },
-  //   { "pattern": "dimaferyhermaco.com", "custom_domain": true }
-  // ]
+  "workers_dev": true,
+  // Dominio propio (Custom Domain). Se declara aquí para que cada deploy lo mantenga.
+  "routes": [{ "pattern": "tanquesdeagua.co", "custom_domain": true }]
 }
