@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Política de privacidad', url: '/politica-de-privacidad' },
+];
+---
+
+<Base title="Política de tratamiento de datos personales" description={`Política de tratamiento de datos personales de ${site.legalName}.`}>
+  <PageHero title="Política de tratamiento de datos personales" crumbs={crumbs} />
+  <section class="section">
+    <div class="container prose">
+      <!-- TODO: revisar con un abogado. Base: Ley 1581 de 2012 y Decreto 1377 de 2013 (Colombia). -->
+      <p><strong>Responsable:</strong> {site.legalName}. Correo: <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Teléfono: {site.contact.phone}.</p>
+      <h2>Datos que recolectamos</h2>
+      <p>Nombre, teléfono, correo electrónico, ciudad y la información que nos compartas voluntariamente en el formulario de cotización.</p>
+      <h2>Finalidad</h2>
+      <p>Responder tu solicitud, enviarte cotizaciones, agendar y prestar los servicios contratados, y hacer seguimiento a la calidad del servicio. No vendemos ni compartimos tus datos con terceros con fines comerciales.</p>
+      <h2>Tus derechos</h2>
+      <p>Puedes conocer, actualizar, rectificar y solicitar la supresión de tus datos, así como revocar la autorización, escribiendo a {site.contact.email}.</p>
+      <h2>Cookies y analítica</h2>
+      <p>Este sitio utiliza Cloudflare Web Analytics, que no usa cookies ni recolecta datos personales identificables.</p>
+    </div>
+  </section>
+</Base>

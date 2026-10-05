@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceImage from '../../components/ServiceImage.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site, services } from '../../data/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Servicios', url: '/servicios' },
+];
+const itemList = {
+  '@type': 'ItemList',
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/servicios/${s.slug}`, site.url).href,
+    name: s.name,
+  })),
+};
+---
+
+<Base
+  title={`Servicios para tanques de agua en ${site.address.locality}`}
+  description={`Lavado, desinfección, impermeabilización, mantenimiento e instalación de tanques de agua en ${site.address.locality}. Conoce cada servicio y cotiza gratis.`}
+  schema={[breadcrumbSchema(crumbs), itemList]}
+>
+  <PageHero title="Nuestros servicios" lead="Soluciones completas para el almacenamiento de agua potable en hogares, conjuntos y empresas." crumbs={crumbs} />
+  <section class="section">
+    <div class="container list">
+      {
+        services.map((s, i) => (
+          <article class:list={['row', { 'row--rev': i % 2 }]}>
+            <ServiceImage file={s.image} alt={s.name} icon={s.icon} class="row__img" />
+            <div>
+              <h2>{s.name}</h2>
+              <p class="lead">{s.short}</p>
+              <ul class="check-list">{s.includes.slice(0, 4).map((x) => <li>{x}</li>)}</ul>
+              <a class="btn" href={`/servicios/${s.slug}`}>
+                Más sobre {s.name.toLowerCase()} <Icon name="arrow" />
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .list {
+    display: grid;
+    gap: clamp(56px, 8vw, 96px);
+  }
+  .row {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+    .row--rev > :first-child {
+      order: 2;
+    }
+  }
+  .row :global(.row__img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { site } from '../data/site';
+import { graph, websiteSchema } from '../lib/schema';
+
+type SeoProps = import('../components/SEO.astro').Props;
+export interface Props extends Omit<SeoProps, 'schema'> {
+  /** Nodos JSON-LD adicionales de la página (se combinan con WebSite) */
+  schema?: object[];
+}
+
+const { schema = [], ...seo } = Astro.props;
+const ldGraph = graph(websiteSchema(), ...schema);
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#062a4a" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <SEO {...seo} schema={ldGraph} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+    <script>
+      // Medición de conversiones sin cookies (Cloudflare Analytics Engine)
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href') || '';
+        const tipo = href.startsWith('https://wa.me')
+          ? 'whatsapp'
+          : href.startsWith('tel:')
+            ? 'llamada'
+            : href.startsWith('mailto:')
+              ? 'email'
+              : null;
+        if (!tipo) return;
+        const body = JSON.stringify({ tipo, pagina: location.pathname, etiqueta: a.dataset.track || '' });
+        navigator.sendBeacon?.('/api/evento', new Blob([body], { type: 'application/json' }));
+      });
+    </script>
+  </body>
+</html>

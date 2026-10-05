@@ -1,0 +1,62 @@
+---
+/**
+ * Muestra una imagen optimizada (AVIF/WebP, tamaños responsivos) desde src/assets/images.
+ * Si el archivo aún no existe, pinta una ilustración de respaldo para que el sitio no se rompa.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+export interface Props {
+  file?: string;
+  alt: string;
+  icon?: import('./Icon.astro').Props['name'];
+  priority?: boolean;
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+}
+const { file, alt, icon = 'droplet', priority = false, widths = [400, 640, 960, 1280], sizes = '(min-width: 1000px) 50vw, 100vw', class: className } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpg,jpeg,png,webp,avif}');
+const key = file ? `/src/assets/images/${file}` : '';
+const src = key && images[key] ? (await images[key]()).default : null;
+---
+
+{
+  src ? (
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={widths.filter((w) => w <= src.width)}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding={priority ? 'sync' : 'async'}
+      class={className}
+    />
+  ) : (
+    <div class:list={['img-fallback', className]} role="img" aria-label={alt}>
+      <Icon name={icon} size={64} />
+    </div>
+  )
+}
+
+<style>
+  .img-fallback {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    color: #fff;
+    background:
+      radial-gradient(circle at 30% 20%, rgb(255 255 255 / 0.25), transparent 40%),
+      linear-gradient(135deg, var(--aqua-500), var(--brand-700));
+  }
+  .img-fallback :global(svg) {
+    width: 30%;
+    height: auto;
+    opacity: 0.9;
+  }
+</style>

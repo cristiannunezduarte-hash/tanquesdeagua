@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { site } from '../../data/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Blog', url: '/blog' },
+];
+const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
+---
+
+<Base
+  title="Blog: consejos sobre tanques y agua potable"
+  description="Guías y consejos para el cuidado de tanques de agua, calidad del agua potable y mantenimiento preventivo."
+  schema={[breadcrumbSchema(crumbs), { '@type': 'Blog', name: `Blog de ${site.name}`, url: new URL('/blog', site.url).href }]}
+>
+  <PageHero title="Blog" lead="Consejos prácticos para cuidar el agua de tu hogar o empresa." crumbs={crumbs} />
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 && <p class="lead">Muy pronto publicaremos nuestros primeros artículos.</p>}
+      <div class="grid grid--3">
+        {
+          posts.map((p) => (
+            <article class="card post">
+              <time datetime={p.data.publishDate.toISOString()}>{fmt.format(p.data.publishDate)}</time>
+              <h2><a href={`/blog/${p.id}`}>{p.data.title}</a></h2>
+              <p>{p.data.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .post h2 {
+    font-size: 1.25rem;
+  }
+  .post h2 a {
+    color: var(--brand-900);
+    text-decoration: none;
+  }
+  .post h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .post {
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .post:hover {
+    box-shadow: var(--shadow);
+  }
+  time {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .post p {
+    color: var(--ink-soft);
+    margin: 0;
+  }
+</style>

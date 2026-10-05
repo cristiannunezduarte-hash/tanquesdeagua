@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/site';
+---
+
+<Base title="Página no encontrada" description="La página que buscas no existe." noindex>
+  <section class="section">
+    <div class="container" style="max-width:720px;text-align:center">
+      <p class="eyebrow" style="justify-content:center">Error 404</p>
+      <h1>Esta página se fue por el desagüe</h1>
+      <p class="lead" style="margin-inline:auto">Puede que el enlace haya cambiado. Estos son nuestros servicios:</p>
+      <ul style="list-style:none;padding:0;display:grid;gap:8px;margin:24px 0">
+        {services.map((s) => <li><a href={`/servicios/${s.slug}`}>{s.name}</a></li>)}
+      </ul>
+      <a class="btn" href="/">Ir al inicio</a>
+    </div>
+  </section>
+</Base>

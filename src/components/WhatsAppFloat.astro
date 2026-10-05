@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+import { whatsappUrl } from '../data/site';
+---
+
+<a
+  class="wa-float"
+  href={whatsappUrl()}
+  target="_blank"
+  rel="noopener"
+  data-track="flotante"
+  aria-label="Escríbenos por WhatsApp"
+>
+  <Icon name="whatsapp" size={30} />
+</a>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 50;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 10px 25px -5px rgb(18 140 74 / 0.55);
+    transition: transform 0.2s ease;
+  }
+  .wa-float:hover {
+    color: #fff;
+    transform: scale(1.06);
+  }
+  .wa-float::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    to {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+</style>

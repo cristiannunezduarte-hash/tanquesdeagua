@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappUrl } from '../data/site';
+---
+
+<Base title="¡Gracias! Recibimos tu solicitud" description="Tu solicitud de cotización fue recibida." noindex>
+  <section class="section">
+    <div class="container done">
+      <span class="done__icon"><Icon name="check" size={40} /></span>
+      <h1>¡Recibimos tu solicitud!</h1>
+      <p class="lead">Te contactaremos muy pronto. Si es urgente, escríbenos directamente por WhatsApp.</p>
+      <div class="done__actions">
+        <a class="btn btn--whatsapp" href={whatsappUrl()} target="_blank" rel="noopener" data-track="gracias"><Icon name="whatsapp" /> WhatsApp</a>
+        <a class="btn btn--ghost" href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .done {
+    text-align: center;
+    max-width: 640px;
+  }
+  .done .lead {
+    margin-inline: auto;
+  }
+  .done__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--brand-100);
+    color: var(--brand-600);
+    margin-bottom: 20px;
+  }
+  .done__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+</style>

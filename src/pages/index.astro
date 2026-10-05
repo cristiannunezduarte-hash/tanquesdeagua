@@ -1,0 +1,470 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ServiceImage from '../components/ServiceImage.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, services, faqs, testimonials, whatsappUrl } from '../data/site';
+import { localBusinessSchema, faqSchema } from '../lib/schema';
+
+// Título ≤ 60 caracteres con la palabra clave principal + ciudad
+const title = `Lavado de Tanques de Agua en ${site.address.locality} | ${site.name}`;
+
+const steps = [
+  { icon: 'whatsapp', title: 'Nos escribes', text: 'Cuéntanos la capacidad del tanque y tu ubicación por WhatsApp o el formulario.' },
+  { icon: 'calendar', title: 'Agendamos', text: 'Te enviamos la cotización y acordamos el día y la hora que mejor te funcione.' },
+  { icon: 'droplet', title: 'Hacemos el trabajo', text: 'Personal capacitado, con dotación y productos aptos para agua potable.' },
+  { icon: 'certificate', title: 'Te certificamos', text: 'Recibes el certificado del servicio y recomendaciones de mantenimiento.' },
+] as const;
+
+const reasons = [
+  { icon: 'certificate', title: 'Certificado del servicio', text: 'Documento soporte para administraciones, colegios, restaurantes y entidades de control.' },
+  { icon: 'shield', title: 'Productos seguros', text: 'Desinfectantes y recubrimientos aptos para contacto con agua de consumo humano.' },
+  { icon: 'users', title: 'Personal capacitado', text: 'Equipo con experiencia en trabajo en espacios confinados y elementos de protección.' },
+  { icon: 'clock', title: 'Puntualidad', text: 'Llegamos a la hora acordada y minimizamos el tiempo sin agua.' },
+] as const;
+---
+
+<Base
+  title={title}
+  description={site.description}
+  schema={[localBusinessSchema(), faqSchema(faqs)]}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="hero__badge"><Icon name="pin" size={16} /> {site.address.locality} y alrededores</p>
+        <h1>Lavado y desinfección de <span>tanques de agua</span></h1>
+        <p class="hero__lead">{site.slogan}. Hogares, conjuntos residenciales, empresas e instituciones. Entregamos certificado del servicio.</p>
+        <div class="hero__actions">
+          <a class="btn btn--whatsapp" href={whatsappUrl()} target="_blank" rel="noopener" data-track="hero">
+            <Icon name="whatsapp" /> Cotizar por WhatsApp
+          </a>
+          <a class="btn btn--light" href="#servicios">Ver servicios <Icon name="arrow" /></a>
+        </div>
+        <ul class="hero__stats">
+          {site.stats.map((s) => <li><strong>{s.value}</strong><span>{s.label}</span></li>)}
+        </ul>
+      </div>
+      <div class="hero__media">
+        <ServiceImage
+          file="hero.jpg"
+          alt="Técnico realizando el lavado y desinfección de un tanque de agua"
+          priority
+          sizes="(min-width: 1000px) 520px, 100vw"
+          widths={[480, 720, 1040]}
+          class="hero__img"
+        />
+        <div class="hero__float">
+          <Icon name="certificate" size={28} />
+          <div><strong>Con certificado</strong><span>en cada servicio</span></div>
+        </div>
+      </div>
+    </div>
+    <svg class="hero__wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 64c160 40 320 56 480 40s320-72 480-72 320 48 480 64v104H0Z" fill="#fff"></path>
+    </svg>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Servicios</p>
+        <h2>Todo lo que tu tanque de agua necesita</h2>
+        <p class="lead">Un solo proveedor para mantener el agua de tu casa o empresa limpia, segura y sin pérdidas.</p>
+      </div>
+      <div class="grid grid--4">
+        {
+          services.map((s) => (
+            <a class="svc" href={`/servicios/${s.slug}`}>
+              <span class="svc__icon"><Icon name={s.icon} size={28} /></span>
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <span class="svc__more">Ver detalles <Icon name="arrow" size={18} /></span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUÉ -->
+  <section class="section section--soft">
+    <div class="container why">
+      <div class="why__media">
+        <ServiceImage file="equipo.jpg" alt={`Equipo de trabajo de ${site.name}`} icon="users" />
+      </div>
+      <div>
+        <p class="eyebrow">¿Por qué elegirnos?</p>
+        <h2>Agua limpia, trabajo serio y garantizado</h2>
+        <p class="lead">El agua que almacenas es la que usa tu familia para cocinar, beber y bañarse. Por eso trabajamos con protocolos claros y transparentes.</p>
+        <div class="grid grid--2 why__list">
+          {
+            reasons.map((r) => (
+              <div class="why__item">
+                <Icon name={r.icon} />
+                <div>
+                  <h3>{r.title}</h3>
+                  <p>{r.text}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Así trabajamos</p>
+        <h2>Tu tanque limpio en 4 pasos</h2>
+      </div>
+      <ol class="steps grid grid--4">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="steps__n">{String(i + 1).padStart(2, '0')}</span>
+              <Icon name={s.icon} size={30} />
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {
+    testimonials.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <div class="section-head section-head--center">
+            <p class="eyebrow">Opiniones</p>
+            <h2>Lo que dicen nuestros clientes</h2>
+          </div>
+          <div class="grid grid--3">
+            {testimonials.map((t) => (
+              <figure class="card quote">
+                <blockquote>“{t.text}”</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong> · {t.place}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ZONAS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Cobertura</p>
+        <h2>Zonas donde prestamos el servicio</h2>
+      </div>
+      <ul class="areas">
+        {site.areaServed.map((a) => <li><Icon name="pin" size={18} />{a}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ + FORM -->
+  <section class="section section--soft" id="cotizar">
+    <div class="container grid grid--2 faq-form">
+      <div>
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Resolvemos tus dudas</h2>
+        <Faq items={faqs} />
+      </div>
+      <div>
+        <p class="eyebrow">Cotización gratis</p>
+        <h2>Pide tu cotización</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    color: #dbe9f6;
+    background:
+      radial-gradient(900px 500px at 85% 10%, rgb(24 182 214 / 0.45), transparent 60%),
+      radial-gradient(700px 400px at 0% 100%, rgb(30 136 229 / 0.35), transparent 60%),
+      var(--brand-900);
+    padding-top: clamp(40px, 7vw, 88px);
+    padding-bottom: clamp(100px, 12vw, 160px);
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .hero__grid {
+      grid-template-columns: 1.15fr 1fr;
+    }
+  }
+  .hero h1 {
+    color: #fff;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--aqua-300), #fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.1);
+    border: 1px solid rgb(255 255 255 / 0.15);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .hero__lead {
+    font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+    max-width: 56ch;
+    color: #bcd3e8;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 40px;
+  }
+  .hero__stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+  }
+  .hero__stats li {
+    display: grid;
+  }
+  .hero__stats strong {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .hero__stats span {
+    font-size: 0.875rem;
+    color: #9fbad3;
+  }
+  .hero__media {
+    position: relative;
+  }
+  .hero__media :global(.hero__img) {
+    width: 100%;
+    aspect-ratio: 4 / 4.2;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.5);
+    outline: 6px solid rgb(255 255 255 / 0.08);
+  }
+  .hero__float {
+    position: absolute;
+    left: -12px;
+    bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #fff;
+    color: var(--brand-700);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .hero__float div {
+    display: grid;
+    line-height: 1.25;
+  }
+  .hero__float strong {
+    color: var(--brand-900);
+  }
+  .hero__float span {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 600px) {
+    .hero__float {
+      left: 12px;
+      bottom: 12px;
+    }
+  }
+  .hero__wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: clamp(48px, 7vw, 110px);
+  }
+
+  /* SERVICIOS */
+  .svc {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      border-color 0.2s;
+  }
+  .svc:hover {
+    color: var(--ink);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: transparent;
+  }
+  .svc__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--aqua-500), var(--brand-600));
+  }
+  .svc p {
+    color: var(--ink-soft);
+    flex: 1;
+  }
+  .svc__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: var(--brand-600);
+  }
+
+  /* POR QUÉ */
+  .why {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .why {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+  }
+  .why__media :global(img),
+  .why__media :global(.img-fallback) {
+    border-radius: var(--radius-lg);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    width: 100%;
+  }
+  .why__list {
+    margin-top: 28px;
+  }
+  .why__item {
+    display: flex;
+    gap: 14px;
+  }
+  .why__item > :global(svg) {
+    flex: none;
+    color: var(--brand-600);
+    margin-top: 2px;
+  }
+  .why__item h3 {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .why__item p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* PROCESO */
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .steps li {
+    position: relative;
+    padding: 28px;
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .steps li > :global(svg) {
+    color: var(--aqua-300);
+    margin-bottom: 14px;
+  }
+  .steps__n {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: rgb(255 255 255 / 0.08);
+  }
+  .steps p {
+    margin: 0;
+    color: #a9c2da;
+  }
+
+  .quote blockquote {
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+  }
+  .quote figcaption {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  /* ZONAS */
+  .areas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .areas li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--brand-50);
+    color: var(--brand-800);
+    font-weight: 600;
+  }
+
+  .faq-form {
+    align-items: start;
+  }
+</style>

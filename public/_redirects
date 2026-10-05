@@ -1,0 +1,13 @@
+# Redirecciones 301 de las URLs antiguas de Wix a las nuevas.
+# Importante para no perder el posicionamiento que ya tenga la página.
+# TODO: completar con las URLs reales de Wix (revisa Google Search Console > Páginas).
+/home            /                  301
+/inicio          /                  301
+/servicios-1     /servicios         301
+/about           /nosotros          301
+/about-us        /nosotros          301
+/quienes-somos   /nosotros          301
+/contact         /contacto          301
+/contactenos     /contacto          301
+/blank           /                  301
+/tanques-de-agua /                  301

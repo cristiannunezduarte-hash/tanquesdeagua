@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappUrl } from '../data/site';
+import { breadcrumbSchema, localBusinessSchema } from '../lib/schema';
+
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Contacto', url: '/contacto' },
+];
+---
+
+<Base
+  title="Contacto y cotizaciones"
+  description={`Cotiza gratis el lavado, desinfección o mantenimiento de tu tanque de agua en ${site.address.locality}. WhatsApp ${site.contact.phone}.`}
+  schema={[breadcrumbSchema(crumbs), { '@type': 'ContactPage', url: new URL('/contacto', site.url).href }, localBusinessSchema()]}
+>
+  <PageHero title="Contáctanos" lead="Te respondemos el mismo día hábil. Para una respuesta más rápida, escríbenos por WhatsApp." crumbs={crumbs} />
+  <section class="section">
+    <div class="container contact">
+      <div class="info">
+        <a class="btn btn--whatsapp btn--block" href={whatsappUrl()} target="_blank" rel="noopener" data-track="contacto">
+          <Icon name="whatsapp" /> Escríbenos por WhatsApp
+        </a>
+        <ul>
+          <li><Icon name="phone" /><div><strong>Teléfono</strong><a href={`tel:${site.contact.phoneE164}`} data-track="contacto">{site.contact.phone}</a></div></li>
+          <li><Icon name="mail" /><div><strong>Correo</strong><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></div></li>
+          <li><Icon name="pin" /><div><strong>Dirección</strong><span>{site.address.street}, {site.address.locality}, {site.address.region}</span><a href={site.address.mapsUrl} target="_blank" rel="noopener">Ver en Google Maps</a></div></li>
+          <li><Icon name="clock" /><div><strong>Horario</strong><span>{site.openingHoursText}</span></div></li>
+        </ul>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    display: grid;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .contact {
+      grid-template-columns: 380px 1fr;
+      gap: 64px;
+    }
+  }
+  .info ul {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    gap: 22px;
+  }
+  .info li {
+    display: flex;
+    gap: 14px;
+  }
+  .info li > :global(svg) {
+    flex: none;
+    color: var(--brand-600);
+  }
+  .info li div {
+    display: grid;
+  }
+</style>

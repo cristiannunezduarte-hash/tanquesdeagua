@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tanques-de-agua",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Archivos estáticos generados por Astro. Se sirven sin ejecutar el Worker
+  // (gratis e ilimitado); solo /api/* pasa por el Worker.
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "drop-trailing-slash",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Base de datos D1 (SQLite) para guardar las solicitudes de cotización.
+  // Crear con:  npx wrangler d1 create tanques-db  y pegar aquí el database_id.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tanques-db",
+      "database_id": "REEMPLAZAR-CON-EL-ID-DE-D1",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Rate limiting nativo de Workers (gratis) contra spam en el formulario.
+  "ratelimits": [
+    { "name": "FORM_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }
+  ],
+
+  // Analítica propia de eventos (clics a WhatsApp, envíos de formulario).
+  "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "tanques_eventos" }],
+
+  "vars": {
+    // Correo verificado en Email Routing que recibirá aviso de cada cotización (opcional).
+    "NOTIFY_EMAIL": ""
+  },
+
+  // Aviso por correo de cada solicitud vía Email Routing (gratis).
+  // Descomentar cuando Email Routing esté activo en el dominio:
+  // "send_email": [{ "name": "MAILER", "destination_address": "tu-correo@gmail.com" }],
+
+  "observability": { "enabled": true },
+  "workers_dev": true
+  // Dominio propio: descomentar y ajustar cuando se pase a producción
+  // "routes": [
+  //   { "pattern": "www.tanquesdeagua.com.co", "custom_domain": true },
+  //   { "pattern": "tanquesdeagua.com.co", "custom_domain": true }
+  // ]
+}

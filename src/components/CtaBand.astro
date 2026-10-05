@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+import { site, whatsappUrl } from '../data/site';
+const { title = '¿Tu tanque necesita atención?', text = 'Cotiza sin compromiso. Te respondemos el mismo día hábil.', message } =
+  Astro.props as { title?: string; text?: string; message?: string };
+---
+
+<section class="cta">
+  <div class="container">
+    <div class="cta__box">
+      <div>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta__actions">
+        <a class="btn btn--whatsapp" href={whatsappUrl(message)} target="_blank" rel="noopener" data-track="cta">
+          <Icon name="whatsapp" /> Escríbenos por WhatsApp
+        </a>
+        <a class="btn btn--light" href={`tel:${site.contact.phoneE164}`} data-track="cta">
+          <Icon name="phone" /> Llamar
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .cta__box {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 24px;
+    align-items: center;
+    padding: clamp(32px, 5vw, 56px);
+    border-radius: var(--radius-lg);
+    color: #e6f2fc;
+    background:
+      radial-gradient(600px 300px at 100% 0%, rgb(24 182 214 / 0.55), transparent 60%),
+      linear-gradient(135deg, var(--brand-700), var(--brand-900));
+  }
+  @media (min-width: 860px) {
+    .cta__box {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  h2 {
+    color: #fff;
+  }
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceImage from '../components/ServiceImage.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+import { breadcrumbSchema, BUSINESS_ID } from '../lib/schema';
+
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Nosotros', url: '/nosotros' },
+];
+const years = new Date().getFullYear() - site.foundingYear;
+---
+
+<Base
+  title="Quiénes somos"
+  description={`Conoce a ${site.name}: más de ${years} años cuidando el agua de hogares y empresas en ${site.address.locality}.`}
+  schema={[breadcrumbSchema(crumbs), { '@type': 'AboutPage', about: { '@id': BUSINESS_ID } }]}
+>
+  <PageHero title="Quiénes somos" lead={`Más de ${years} años cuidando el agua que consumen las familias y empresas de ${site.address.locality}.`} crumbs={crumbs} />
+  <section class="section">
+    <div class="container about">
+      <div class="prose">
+        <!-- TODO: reemplazar con la historia real del negocio (texto de la página de Wix). -->
+        <p class="lead">
+          Somos una empresa especializada en el cuidado de tanques y sistemas de almacenamiento de agua potable. Nació con
+          una idea sencilla: que cada familia tenga la tranquilidad de consumir agua limpia.
+        </p>
+        <h2>Nuestra misión</h2>
+        <p>
+          Garantizar la calidad del agua almacenada de nuestros clientes mediante servicios de lavado, desinfección,
+          impermeabilización y mantenimiento realizados con responsabilidad, puntualidad y transparencia.
+        </p>
+        <h2>Cómo trabajamos</h2>
+        <ul class="check-list">
+          <li>Personal capacitado y con elementos de protección personal</li>
+          <li>Productos aptos para contacto con agua de consumo humano</li>
+          <li>Certificado de cada servicio realizado</li>
+          <li>Precios claros, sin sorpresas</li>
+        </ul>
+      </div>
+      <ServiceImage file="equipo.jpg" alt={`Equipo de ${site.name}`} icon="users" class="about__img" />
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .about {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+  .about :global(.about__img) {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+</style>

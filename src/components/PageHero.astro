@@ -1,0 +1,27 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+const { title, lead, crumbs } = Astro.props as { title: string; lead?: string; crumbs: { name: string; url: string }[] };
+---
+
+<section class="phero">
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .phero {
+    padding-block: clamp(40px, 6vw, 72px);
+    background:
+      radial-gradient(700px 300px at 100% 0%, var(--brand-100), transparent 70%),
+      var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  .phero :global(.crumbs a),
+  .phero :global(.crumbs) {
+    color: var(--ink-soft);
+  }
+</style>

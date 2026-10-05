@@ -1,0 +1,68 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services } from '../../data/site';
+import { articleSchema, breadcrumbSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const { Content } = await render(post);
+const url = `/blog/${post.id}`;
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: post.data.title, url },
+];
+const related = services.find((s) => s.slug === post.data.service);
+const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  image={post.data.image}
+  publishedTime={post.data.publishDate}
+  modifiedTime={post.data.updatedDate}
+  noindex={post.data.draft}
+  schema={[
+    articleSchema({
+      title: post.data.title,
+      description: post.data.description,
+      url,
+      image: post.data.image,
+      published: post.data.publishDate,
+      updated: post.data.updatedDate,
+      author: post.data.author,
+    }),
+    breadcrumbSchema(crumbs),
+  ]}
+>
+  <PageHero title={post.data.title} lead={post.data.description} crumbs={crumbs}>
+    <p class="meta">
+      Por {post.data.author} · <time datetime={post.data.publishDate.toISOString()}>{fmt.format(post.data.publishDate)}</time>
+    </p>
+  </PageHero>
+  <section class="section">
+    <article class="container prose">
+      <Content />
+    </article>
+  </section>
+  <CtaBand
+    title={related ? `¿Necesitas ${related.name.toLowerCase()}?` : undefined}
+    message={related ? `Hola, leí su artículo y quiero cotizar: ${related.name}.` : undefined}
+  />
+</Base>
+
+<style>
+  .meta {
+    color: var(--ink-soft);
+    margin: 0;
+  }
+</style>

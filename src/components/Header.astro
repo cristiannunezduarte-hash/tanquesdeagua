@@ -1,0 +1,158 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { site, whatsappUrl } from '../data/site';
+
+const nav = [
+  { href: '/servicios', label: 'Servicios' },
+  { href: '/nosotros', label: 'Nosotros' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contacto', label: 'Contacto' },
+];
+const current = Astro.url.pathname.replace(/\.html$/, '');
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label={`${site.name} — inicio`}><Logo /></a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle sr-only" aria-hidden="true" tabindex="-1" />
+    <label for="nav-toggle" class="nav-btn" aria-label="Abrir menú">
+      <Icon name="menu" class="i-open" />
+      <Icon name="close" class="i-close" />
+    </label>
+
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="nav__phone" href={`tel:${site.contact.phoneE164}`} data-track="header">
+        <Icon name="phone" size={18} />
+        {site.contact.phone}
+      </a>
+      <a class="btn btn--whatsapp nav__cta" href={whatsappUrl()} target="_blank" rel="noopener" data-track="header">
+        <Icon name="whatsapp" /> Cotizar gratis
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgb(255 255 255 / 0.88);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgb(217 227 238 / 0.7);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    gap: 20px;
+  }
+  .header__brand {
+    text-decoration: none;
+  }
+  .nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 6px;
+  }
+  .nav ul a {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nav ul a:hover,
+  .nav ul a[aria-current='page'] {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+  .nav__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: var(--brand-800);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__cta {
+    min-height: 44px;
+    padding: 0 18px;
+  }
+  .nav-btn {
+    display: none;
+  }
+
+  @media (min-width: 961px) {
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+  }
+  @media (max-width: 960px) {
+    .nav-btn {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: var(--brand-900);
+    }
+    .nav-btn :global(.i-close),
+    .nav-toggle:checked ~ .nav-btn :global(.i-open) {
+      display: none;
+    }
+    .nav-toggle:checked ~ .nav-btn :global(.i-close) {
+      display: block;
+    }
+    .nav {
+      position: absolute;
+      inset: 72px 0 auto;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 16px var(--gutter) 24px;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .nav-toggle:checked ~ .nav {
+      display: flex;
+    }
+    .nav ul {
+      flex-direction: column;
+    }
+    .nav ul a {
+      padding: 12px 8px;
+      font-size: 1.1rem;
+    }
+    .nav__cta {
+      width: 100%;
+      min-height: 52px;
+    }
+    .nav__phone {
+      padding: 8px;
+    }
+  }
+</style>

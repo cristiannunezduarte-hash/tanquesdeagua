@@ -1,0 +1,138 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { site, services, whatsappUrl } from '../data/site';
+const year = new Date().getFullYear();
+const social = Object.entries(site.social).filter(([, url]) => url) as [string, string][];
+---
+
+<footer class="footer section--dark">
+  <div class="container footer__grid">
+    <div class="footer__about">
+      <a href="/" aria-label={site.name}><Logo light /></a>
+      <p>{site.description}</p>
+      {
+        social.length > 0 && (
+          <ul class="footer__social">
+            {social.map(([name, url]) => (
+              <li>
+                <a href={url} target="_blank" rel="noopener me" aria-label={name}>
+                  {name === 'facebook' || name === 'instagram' ? <Icon name={name} size={20} /> : name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <nav aria-label="Servicios">
+      <h2 class="footer__title">Servicios</h2>
+      <ul>{services.map((s) => <li><a href={`/servicios/${s.slug}`}>{s.name}</a></li>)}</ul>
+    </nav>
+
+    <div>
+      <h2 class="footer__title">Zonas de servicio</h2>
+      <p class="footer__areas">{site.areaServed.join(' · ')}</p>
+    </div>
+
+    <address>
+      <h2 class="footer__title">Contacto</h2>
+      <ul class="footer__contact">
+        <li><Icon name="whatsapp" size={18} /><a href={whatsappUrl()} target="_blank" rel="noopener" data-track="footer">WhatsApp</a></li>
+        <li><Icon name="phone" size={18} /><a href={`tel:${site.contact.phoneE164}`} data-track="footer">{site.contact.phone}</a></li>
+        <li><Icon name="mail" size={18} /><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+        <li><Icon name="pin" size={18} /><span>{site.address.street}, {site.address.locality}</span></li>
+        <li><Icon name="clock" size={18} /><span>{site.openingHoursText}</span></li>
+      </ul>
+    </address>
+  </div>
+  <div class="container footer__bottom">
+    <p>© {year} {site.legalName}. Todos los derechos reservados.</p>
+    <p><a href="/politica-de-privacidad">Política de privacidad</a></p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-top: 72px;
+    font-size: 0.95rem;
+  }
+  .footer a {
+    color: #dbe9f6;
+    text-decoration: none;
+  }
+  .footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  .footer__grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 800px) {
+    .footer__grid {
+      grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    }
+  }
+  .footer__about p {
+    margin-top: 16px;
+    color: #a9c2da;
+  }
+  .footer__title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--aqua-300);
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  address {
+    font-style: normal;
+  }
+  .footer__contact li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .footer__contact :global(svg) {
+    margin-top: 3px;
+    flex: none;
+    color: var(--aqua-300);
+  }
+  .footer__areas {
+    color: #a9c2da;
+  }
+  .footer__social {
+    display: flex;
+    gap: 10px;
+  }
+  .footer__social a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 56px;
+    padding-block: 24px;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    color: #8aa6c1;
+    font-size: 0.875rem;
+  }
+  .footer__bottom p {
+    margin: 0;
+  }
+</style>
