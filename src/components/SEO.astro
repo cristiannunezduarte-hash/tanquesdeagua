@@ -31,7 +31,7 @@ const {
 } = Astro.props;
 
 // Canonical siempre absoluto, sin query string y sin barra final
-const path = Astro.url.pathname.replace(/\.html$/, '').replace(/(.)\/$/, '$1');
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/(^|\/)index$/, '$1').replace(/(.)\/$/, '$1');
 const canonical = new URL(path, site.url).href;
 const ogImage = new URL(image, site.url).href;
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
