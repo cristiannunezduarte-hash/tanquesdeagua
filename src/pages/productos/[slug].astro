@@ -1,0 +1,176 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Img from '../../components/Img.astro';
+import Faq from '../../components/Faq.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { site, products, whatsappUrl, type Product } from '../../data/site';
+import { breadcrumbSchema, faqSchema, productPageSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+const { product } = Astro.props as { product: Product };
+const url = `/productos/${product.slug}`;
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Productos', url: '/productos' },
+  { name: product.name, url },
+];
+const others = products.filter((p) => p.slug !== product.slug);
+const schema: object[] = [productPageSchema(product, url), breadcrumbSchema(crumbs)];
+if (product.faqs.length) schema.push(faqSchema(product.faqs));
+const waMsg = `Hola, quiero cotizar: ${product.name}.`;
+---
+
+<Base title={`${product.name} en Bogotá`} description={product.metaDescription} schema={schema}>
+  <PageHero title={`${product.name} en ${site.address.locality}`} lead={product.summary} crumbs={crumbs}>
+    <div class="actions">
+      <a class="btn" href={whatsappUrl(waMsg)} target="_blank" rel="noopener" data-track={product.slug}>
+        <Icon name="whatsapp" /> Cotizar producto
+      </a>
+      <a class="btn btn--ghost" href={`tel:${site.contact.phoneE164}`} data-track={product.slug}>
+        <Icon name="phone" /> ¡Llamar ahora!
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container detail">
+      <article class="prose">
+        <div class="detail__media">
+          <Img file={product.image} alt={product.name} icon={product.icon} priority sizes="(min-width: 1000px) 680px, 100vw" widths={[400, 680, 1000]} />
+        </div>
+        {product.intro.map((p, i) => <p class:list={{ lead: i === 0 }}>{p}</p>)}
+
+        <h2>Características</h2>
+        <ul class="check-list">{product.features.map((x) => <li>{x}</li>)}</ul>
+
+        <h2>¿Dónde se usa?</h2>
+        <ul class="tags">{product.uses.map((x) => <li>{x}</li>)}</ul>
+
+        {
+          product.scene && (
+            <figure class="scene">
+              <Img file={product.scene} alt={`${product.name}: aplicación`} sizes="(min-width: 1000px) 680px, 100vw" />
+            </figure>
+          )
+        }
+
+        <h2>Asesoría para elegir bien</h2>
+        <p>
+          Con 45 años de experiencia en el sector ferretero y especialización en recursos hídricos, te ayudamos a elegir el
+          producto adecuado y te acompañamos con servicio técnico especializado.
+        </p>
+
+        {
+          product.faqs.length > 0 && (
+            <>
+              <h2>Preguntas frecuentes</h2>
+              <Faq items={product.faqs} />
+            </>
+          )
+        }
+      </article>
+
+      <aside class="side">
+        <h2 class="side__title">Cotiza este producto</h2>
+        <ContactForm selected={product.slug} />
+        <nav class="card others" aria-label="Otros productos">
+          <h2 class="side__title">Otros productos</h2>
+          <ul>{others.map((p) => <li><a href={`/productos/${p.slug}`}><Icon name={p.icon} size={20} /> {p.name}</a></li>)}</ul>
+        </nav>
+      </aside>
+    </div>
+  </section>
+  <CtaBand message={waMsg} />
+</Base>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .detail {
+    display: grid;
+    gap: 48px;
+  }
+  @media (min-width: 1000px) {
+    .detail {
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 64px;
+    }
+    .side {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+    }
+  }
+  .detail__media {
+    display: grid;
+    place-items: center;
+    padding: clamp(24px, 4vw, 48px);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 50% 60%, #fff 0%, var(--brand-100) 80%);
+    margin-bottom: 28px;
+  }
+  .detail__media :global(img) {
+    max-height: 420px;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  .scene {
+    margin: 32px 0;
+  }
+  .scene :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .tags {
+    list-style: none;
+    padding: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tags li {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--brand-100);
+    color: var(--brand-800);
+    font-weight: 600;
+    margin: 0;
+  }
+  .side {
+    display: grid;
+    gap: 24px;
+  }
+  .side__title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  .others ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: grid;
+    gap: 4px;
+  }
+  .others a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--brand-700);
+  }
+</style>

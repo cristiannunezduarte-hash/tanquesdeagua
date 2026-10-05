@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Img from '../../components/Img.astro';
+import Icon from '../../components/Icon.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site, products, whatsappUrl } from '../../data/site';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Productos', url: '/productos' },
+];
+const itemList = {
+  '@type': 'ItemList',
+  name: 'Productos',
+  itemListElement: products.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/productos/${p.slug}`, site.url).href,
+    name: p.name,
+  })),
+};
+---
+
+<Base
+  title="Productos: tanques de agua, sistemas sépticos y valvulería"
+  description="Portafolio de tanques de agua: grandes almacenamientos, tanques cafeteros y ganaderos, sistemas sépticos y valvulería. Asesoría técnica en Bogotá."
+  schema={[breadcrumbSchema(crumbs), itemList]}
+>
+  <PageHero
+    title="Tanques de agua con la mejor resistencia"
+    lead="Y con la asesoría que necesitas para tomar la mejor decisión. Conoce nuestro portafolio."
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container list">
+      {
+        products.map((p, i) => (
+          <article class:list={['row', { 'row--rev': i % 2 }]} id={p.slug}>
+            <div class="row__media">
+              <Img file={p.image} alt={p.name} icon={p.icon} sizes="(min-width: 900px) 540px, 100vw" widths={[400, 640, 960]} />
+            </div>
+            <div>
+              <h2>{p.name}</h2>
+              <p class="lead">{p.summary}</p>
+              <ul class="check-list">{p.features.slice(0, 4).map((x) => <li>{x}</li>)}</ul>
+              <div class="row__actions">
+                <a class="btn" href={whatsappUrl(`Hola, quiero cotizar: ${p.name}.`)} target="_blank" rel="noopener" data-track={p.slug}>
+                  <Icon name="whatsapp" /> Cotizar producto
+                </a>
+                <a class="btn btn--ghost" href={`/productos/${p.slug}`}>Ver detalles <Icon name="arrow" /></a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section section--soft">
+    <div class="container narrow">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Cotización</p>
+        <h2>Envía tu solicitud para cotización</h2>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .list {
+    display: grid;
+    gap: clamp(56px, 8vw, 96px);
+  }
+  .row {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    scroll-margin-top: 96px;
+  }
+  @media (min-width: 900px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+    .row--rev > :first-child {
+      order: 2;
+    }
+  }
+  .row__media {
+    display: grid;
+    place-items: center;
+    padding: clamp(24px, 4vw, 48px);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 50% 60%, #fff 0%, var(--brand-100) 80%);
+    aspect-ratio: 4 / 3;
+  }
+  .row__media :global(img) {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  .row__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .narrow {
+    max-width: 820px;
+  }
+</style>

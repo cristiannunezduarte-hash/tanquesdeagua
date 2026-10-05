@@ -1,6 +1,6 @@
-# Tanques de Agua — sitio web
+# Dimafer & Hermaco — Tanques de Agua
 
-Migración del sitio de Wix a **Cloudflare**, con foco en velocidad, SEO orgánico y costo casi cero.
+Migración del sitio de Wix (https://cristiannunezduart.wixsite.com/tanques-de-agua) a **Cloudflare**, con foco en velocidad, SEO orgánico y costo casi cero.
 
 ## Arquitectura (todo en Cloudflare)
 
@@ -20,7 +20,7 @@ Migración del sitio de Wix a **Cloudflare**, con foco en velocidad, SEO orgáni
 
 ```
 src/
-  data/site.ts        ← TODOS los datos del negocio (teléfono, servicios, zonas, FAQ…)
+  data/site.ts        ← TODOS los datos del negocio (teléfono, productos, sectores, FAQ…)
   styles/global.css   ← colores y tipografía (variables --brand-*)
   assets/images/      ← fotos (se optimizan solas a AVIF/WebP)
   content/blog/       ← artículos del blog en Markdown
@@ -46,7 +46,7 @@ npm run preview      # sitio + API + D1 locales con wrangler (http://localhost:8
 ```bash
 npm run imagenes:wix
 ```
-Quedan en `src/assets/images/wix/`. Renómbralas según `src/assets/images/LEEME.md`.
+Ya están descargadas y renombradas en `src/assets/images/` (ver `LEEME.md`). Este comando solo sirve si agregas imágenes nuevas en Wix.
 
 ## Despliegue en Cloudflare (una sola vez)
 
@@ -70,10 +70,10 @@ npx wrangler d1 execute tanques-db --remote --command "SELECT * FROM solicitudes
 
 ## Antes de publicar — checklist
 
-- [ ] Reemplazar todos los `TODO` de `src/data/site.ts` (teléfono, dirección, dominio, servicios reales).
-- [ ] Ajustar colores en `src/styles/global.css` a los de la marca.
-- [ ] Subir las fotos reales a `src/assets/images/`.
-- [ ] Reemplazar `public/og-default.jpg` por una imagen real 1200×630.
+- [ ] Revisar los `TODO` de `src/data/site.ts`: dominio, WhatsApp, horario, coordenadas, zonas de despacho, redes sociales.
+- [ ] Confirmar capacidades disponibles de cada tanque (agregarlas mejora mucho el SEO: "tanque de 1000 litros").
+- [ ] Agregar fotos reales del local, bodega y entregas.
+- [ ] Si hay logo oficial, reemplazar el de `src/components/Logo.astro` y correr `node scripts/generar-iconos.mjs`.
 - [ ] Completar `public/_redirects` con las URLs viejas de Wix.
 - [ ] Revisar la política de privacidad.
 

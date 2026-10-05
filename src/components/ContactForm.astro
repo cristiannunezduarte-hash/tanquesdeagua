@@ -6,7 +6,7 @@
  * - Protegido con Cloudflare Turnstile (captcha invisible y gratuito) + honeypot + rate limit.
  * - Turnstile se carga solo cuando el formulario entra en pantalla (no afecta la velocidad).
  */
-import { services, site } from '../data/site';
+import { products, site } from '../data/site';
 
 // Clave pública de Turnstile. La de prueba "1x00000000000000000000AA" siempre pasa.
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
@@ -30,24 +30,24 @@ const { selected = '' } = Astro.props as { selected?: string };
       <input name="email" type="email" autocomplete="email" maxlength="120" />
     </label>
     <label>
-      <span>Ciudad / barrio</span>
+      <span>Ciudad / municipio</span>
       <input name="ciudad" list="ciudades" autocomplete="address-level2" maxlength="60" />
       <datalist id="ciudades">{site.areaServed.map((c) => <option value={c} />)}</datalist>
     </label>
   </div>
   <div class="form__row">
     <label>
-      <span>Servicio</span>
+      <span>Producto de interés</span>
       <select name="servicio">
         <option value="">Selecciona…</option>
-        {services.map((s) => <option value={s.name} selected={s.slug === selected}>{s.name}</option>)}
+        {products.map((p) => <option value={p.short} selected={p.slug === selected}>{p.name}</option>)}
         <option value="Otro">Otro</option>
       </select>
     </label>
     <label>
       <span>Capacidad aproximada</span>
       <select name="capacidad">
-        <option value="">No sé</option>
+        <option value="">No aplica / no sé</option>
         <option>Hasta 1.000 L</option>
         <option>1.000 – 5.000 L</option>
         <option>5.000 – 20.000 L</option>
@@ -56,7 +56,7 @@ const { selected = '' } = Astro.props as { selected?: string };
     </label>
   </div>
   <label>
-    <span>Cuéntanos más (opcional)</span>
+    <span>Cuéntanos tu proyecto (opcional)</span>
     <textarea name="mensaje" rows="4" maxlength="1500"></textarea>
   </label>
 
@@ -69,7 +69,7 @@ const { selected = '' } = Astro.props as { selected?: string };
 
   <div class="cf-turnstile" data-sitekey={siteKey} data-language="es" data-appearance="interaction-only"></div>
 
-  <button class="btn btn--block" type="submit">Solicitar cotización gratis</button>
+  <button class="btn btn--block" type="submit">¡Solicitar cotización!</button>
   <p class="form__status" role="status" aria-live="polite"></p>
   <p class="form__legal">
     Al enviar aceptas nuestra <a href="/politica-de-privacidad">política de tratamiento de datos</a>.
@@ -173,7 +173,7 @@ const { selected = '' } = Astro.props as { selected?: string };
   select:focus,
   textarea:focus {
     outline: none;
-    border-color: var(--brand-500);
+    border-color: var(--brand-600);
     box-shadow: 0 0 0 4px var(--brand-100);
   }
   .hp {

@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
-import { site, services, whatsappUrl } from '../data/site';
+import { site, products, whatsappUrl } from '../data/site';
 const year = new Date().getFullYear();
 const social = Object.entries(site.social).filter(([, url]) => url) as [string, string][];
 ---
@@ -26,13 +26,15 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
       }
     </div>
 
-    <nav aria-label="Servicios">
-      <h2 class="footer__title">Servicios</h2>
-      <ul>{services.map((s) => <li><a href={`/servicios/${s.slug}`}>{s.name}</a></li>)}</ul>
+    <nav aria-label="Productos">
+      <h2 class="footer__title">Productos</h2>
+      <ul>{products.map((p) => <li><a href={`/productos/${p.slug}`}>{p.name}</a></li>)}</ul>
     </nav>
 
     <div>
-      <h2 class="footer__title">Zonas de servicio</h2>
+      <h2 class="footer__title">Sectores</h2>
+      <p class="footer__areas">Residencial · Construcción · Agropecuario</p>
+      <h2 class="footer__title">Cobertura</h2>
       <p class="footer__areas">{site.areaServed.join(' · ')}</p>
     </div>
 
@@ -42,8 +44,8 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
         <li><Icon name="whatsapp" size={18} /><a href={whatsappUrl()} target="_blank" rel="noopener" data-track="footer">WhatsApp</a></li>
         <li><Icon name="phone" size={18} /><a href={`tel:${site.contact.phoneE164}`} data-track="footer">{site.contact.phone}</a></li>
         <li><Icon name="mail" size={18} /><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
-        <li><Icon name="pin" size={18} /><span>{site.address.street}, {site.address.locality}</span></li>
-        <li><Icon name="clock" size={18} /><span>{site.openingHoursText}</span></li>
+        <li><Icon name="pin" size={18} /><a href={site.address.mapsUrl} target="_blank" rel="noopener">{site.address.street}, {site.address.locality} – Colombia</a></li>
+        {site.openingHoursText && <li><Icon name="clock" size={18} /><span>{site.openingHoursText}</span></li>}
       </ul>
     </address>
   </div>
@@ -59,7 +61,7 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
     font-size: 0.95rem;
   }
   .footer a {
-    color: #dbe9f6;
+    color: #e4e8d6;
     text-decoration: none;
   }
   .footer a:hover {
@@ -77,13 +79,13 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
   }
   .footer__about p {
     margin-top: 16px;
-    color: #a9c2da;
+    color: #b9bfa6;
   }
   .footer__title {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--aqua-300);
+    color: var(--lime-300);
     margin-bottom: 16px;
   }
   ul {
@@ -104,10 +106,10 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
   .footer__contact :global(svg) {
     margin-top: 3px;
     flex: none;
-    color: var(--aqua-300);
+    color: var(--lime-300);
   }
   .footer__areas {
-    color: #a9c2da;
+    color: #b9bfa6;
   }
   .footer__social {
     display: flex;
@@ -129,7 +131,7 @@ const social = Object.entries(site.social).filter(([, url]) => url) as [string, 
     margin-top: 56px;
     padding-block: 24px;
     border-top: 1px solid rgb(255 255 255 / 0.1);
-    color: #8aa6c1;
+    color: #9aa087;
     font-size: 0.875rem;
   }
   .footer__bottom p {

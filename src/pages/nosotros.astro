@@ -1,46 +1,45 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import ServiceImage from '../components/ServiceImage.astro';
+import Img from '../components/Img.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { site } from '../data/site';
+import { site, sectors } from '../data/site';
 import { breadcrumbSchema, BUSINESS_ID } from '../lib/schema';
 
 const crumbs = [
   { name: 'Inicio', url: '/' },
   { name: 'Nosotros', url: '/nosotros' },
 ];
-const years = new Date().getFullYear() - site.foundingYear;
 ---
 
 <Base
-  title="Quiénes somos"
-  description={`Conoce a ${site.name}: más de ${years} años cuidando el agua de hogares y empresas en ${site.address.locality}.`}
+  title="Nosotros: 45 años en recursos hídricos"
+  description={`${site.legalName}: 45 años de experiencia en el sector ferretero con especialización en recursos hídricos. Tanques de agua, sistemas sépticos y valvulería en Bogotá.`}
   schema={[breadcrumbSchema(crumbs), { '@type': 'AboutPage', about: { '@id': BUSINESS_ID } }]}
 >
-  <PageHero title="Quiénes somos" lead={`Más de ${years} años cuidando el agua que consumen las familias y empresas de ${site.address.locality}.`} crumbs={crumbs} />
+  <PageHero title={site.legalName} lead="45 años de experiencia en el sector ferretero con especialización en recursos hídricos." crumbs={crumbs} />
   <section class="section">
     <div class="container about">
       <div class="prose">
-        <!-- TODO: reemplazar con la historia real del negocio (texto de la página de Wix). -->
         <p class="lead">
-          Somos una empresa especializada en el cuidado de tanques y sistemas de almacenamiento de agua potable. Nació con
-          una idea sencilla: que cada familia tenga la tranquilidad de consumir agua limpia.
+          Ofrecemos un catálogo de productos con altos estándares de calidad y acompañamos con asesoría y servicio técnico
+          especializado.
         </p>
-        <h2>Nuestra misión</h2>
         <p>
-          Garantizar la calidad del agua almacenada de nuestros clientes mediante servicios de lavado, desinfección,
-          impermeabilización y mantenimiento realizados con responsabilidad, puntualidad y transparencia.
+          Ayudamos a nuestros clientes a <strong>diseñar, implementar y mantener</strong> sistemas de gestión de agua que
+          maximizan la eficiencia y minimizan el desperdicio.
         </p>
-        <h2>Cómo trabajamos</h2>
+        <!-- TODO: agregar la historia de la empresa, misión, visión y fotos reales del local/equipo -->
+        <h2>Asesoría y suministros para</h2>
         <ul class="check-list">
-          <li>Personal capacitado y con elementos de protección personal</li>
-          <li>Productos aptos para contacto con agua de consumo humano</li>
-          <li>Certificado de cada servicio realizado</li>
-          <li>Precios claros, sin sorpresas</li>
+          <li>Almacenamiento de agua</li>
+          <li>Sistemas sépticos</li>
+          <li>Valvulería</li>
         </ul>
+        <h2>Sectores que atendemos</h2>
+        <ul class="check-list">{sectors.map((s) => <li><strong>{s.name}:</strong> {s.text}</li>)}</ul>
       </div>
-      <ServiceImage file="equipo.jpg" alt={`Equipo de ${site.name}`} icon="users" class="about__img" />
+      <Img file="asesoria-tecnica.jpg" alt="Asesoría técnica en obra" class="about__img" sizes="(min-width: 960px) 480px, 100vw" />
     </div>
   </section>
   <CtaBand />

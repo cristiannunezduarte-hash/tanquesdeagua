@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { site, whatsappUrl } from '../data/site';
-const { title = '¿Tu tanque necesita atención?', text = 'Cotiza sin compromiso. Te respondemos el mismo día hábil.', message } =
+const { title = '¿Necesitas un tanque de agua?', text = 'Cotiza sin compromiso y recibe asesoría de expertos con 45 años de experiencia.', message } =
   Astro.props as { title?: string; text?: string; message?: string };
 ---
 
@@ -13,11 +13,11 @@ const { title = '¿Tu tanque necesita atención?', text = 'Cotiza sin compromiso
         <p>{text}</p>
       </div>
       <div class="cta__actions">
-        <a class="btn btn--whatsapp" href={whatsappUrl(message)} target="_blank" rel="noopener" data-track="cta">
+        <a class="btn" href={whatsappUrl(message)} target="_blank" rel="noopener" data-track="cta">
           <Icon name="whatsapp" /> Escríbenos por WhatsApp
         </a>
         <a class="btn btn--light" href={`tel:${site.contact.phoneE164}`} data-track="cta">
-          <Icon name="phone" /> Llamar
+          <Icon name="phone" /> ¡Llamar ahora!
         </a>
       </div>
     </div>
@@ -36,10 +36,10 @@ const { title = '¿Tu tanque necesita atención?', text = 'Cotiza sin compromiso
     align-items: center;
     padding: clamp(32px, 5vw, 56px);
     border-radius: var(--radius-lg);
-    color: #e6f2fc;
+    color: #e4e8d6;
     background:
-      radial-gradient(600px 300px at 100% 0%, rgb(24 182 214 / 0.55), transparent 60%),
-      linear-gradient(135deg, var(--brand-700), var(--brand-900));
+      radial-gradient(600px 300px at 100% 0%, rgb(207 198 45 / 0.35), transparent 60%),
+      linear-gradient(135deg, var(--brand-600), var(--brand-900));
   }
   @media (min-width: 860px) {
     .cta__box {

@@ -9,10 +9,10 @@ const blog = defineCollection({
     description: z.string().max(160),
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Equipo Tanques de Agua'),
+    author: z.string().default('Dimafer & Hermaco'),
     image: z.string().optional(),
-    /** Servicio relacionado (slug) para enlazado interno */
-    service: z.string().optional(),
+    /** Producto relacionado (slug) para enlazado interno */
+    product: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

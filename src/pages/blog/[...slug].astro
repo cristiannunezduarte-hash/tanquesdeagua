@@ -3,7 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import { services } from '../../data/site';
+import { products } from '../../data/site';
 import { articleSchema, breadcrumbSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
@@ -19,7 +19,7 @@ const crumbs = [
   { name: 'Blog', url: '/blog' },
   { name: post.data.title, url },
 ];
-const related = services.find((s) => s.slug === post.data.service);
+const related = products.find((p) => p.slug === post.data.product);
 const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
 ---
 
@@ -55,7 +55,7 @@ const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
     </article>
   </section>
   <CtaBand
-    title={related ? `¿Necesitas ${related.name.toLowerCase()}?` : undefined}
+    title={related ? `¿Buscas ${related.name.toLowerCase()}?` : undefined}
     message={related ? `Hola, leí su artículo y quiero cotizar: ${related.name}.` : undefined}
   />
 </Base>

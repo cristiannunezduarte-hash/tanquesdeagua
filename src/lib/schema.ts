@@ -1,10 +1,10 @@
 /**
  * Generadores de datos estructurados (schema.org / JSON-LD).
  * Le dicen a Google exactamente qué es el negocio, dónde está,
- * qué servicios ofrece y cuáles son sus preguntas frecuentes.
+ * qué productos ofrece y cuáles son sus preguntas frecuentes.
  * Validar en: https://search.google.com/test/rich-results
  */
-import { site, type Service } from '../data/site';
+import { site, products, type Product } from '../data/site';
 
 const abs = (path: string) => new URL(path, site.url).href;
 export const BUSINESS_ID = `${site.url}/#negocio`;
@@ -13,10 +13,11 @@ const WEBSITE_ID = `${site.url}/#web`;
 export function localBusinessSchema() {
   const sameAs = Object.values(site.social).filter(Boolean);
   return {
-    '@type': ['LocalBusiness', 'HomeAndConstructionBusiness'],
+    '@type': ['Store', 'HardwareStore'],
     '@id': BUSINESS_ID,
     name: site.name,
     legalName: site.legalName,
+    alternateName: `${site.name} – ${site.tagline}`,
     description: site.description,
     slogan: site.slogan,
     url: site.url,
@@ -25,32 +26,44 @@ export function localBusinessSchema() {
     telephone: site.contact.phoneE164,
     email: site.contact.email,
     foundingDate: String(site.foundingYear),
-    priceRange: '$$',
     currenciesAccepted: 'COP',
-    paymentAccepted: 'Efectivo, Transferencia, Nequi, Daviplata', // TODO
     address: {
       '@type': 'PostalAddress',
       streetAddress: site.address.street,
       addressLocality: site.address.locality,
       addressRegion: site.address.region,
-      postalCode: site.address.postalCode,
+      ...(site.address.postalCode ? { postalCode: site.address.postalCode } : {}),
       addressCountry: site.address.country,
     },
     geo: { '@type': 'GeoCoordinates', latitude: site.address.geo.lat, longitude: site.address.geo.lng },
     hasMap: site.address.mapsUrl,
-    areaServed: site.areaServed.map((name) => ({ '@type': 'City', name })),
-    openingHoursSpecification: site.openingHours.map((h) => ({
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: h.days,
-      opens: h.opens,
-      closes: h.closes,
-    })),
+    areaServed: site.areaServed.map((name) => ({ '@type': 'AdministrativeArea', name })),
+    ...(site.openingHours.length
+      ? {
+          openingHoursSpecification: site.openingHours.map((h) => ({
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: h.days,
+            opens: h.opens,
+            closes: h.closes,
+          })),
+        }
+      : {}),
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: site.contact.phoneE164,
-      contactType: 'customer service',
+      email: site.contact.email,
+      contactType: 'sales',
       areaServed: 'CO',
       availableLanguage: 'Spanish',
+    },
+    knowsAbout: ['Tanques de agua', 'Almacenamiento de agua', 'Sistemas sépticos', 'Valvulería', 'Recursos hídricos'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Productos',
+      itemListElement: products.map((p) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Product', name: p.name, description: p.summary, url: abs(`/productos/${p.slug}`) },
+      })),
     },
     ...(sameAs.length ? { sameAs } : {}),
   };
@@ -67,21 +80,17 @@ export function websiteSchema() {
   };
 }
 
-export function serviceSchema(s: Service, url: string) {
+export function productPageSchema(p: Product, url: string, imageUrl?: string) {
   return {
-    '@type': 'Service',
-    '@id': `${abs(url)}#servicio`,
-    name: s.name,
-    serviceType: s.name,
-    description: s.metaDescription,
+    '@type': 'ItemPage',
+    '@id': `${abs(url)}#pagina`,
     url: abs(url),
-    provider: { '@id': BUSINESS_ID },
-    areaServed: site.areaServed.map((name) => ({ '@type': 'City', name })),
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: `Incluye — ${s.name}`,
-      itemListElement: s.includes.map((name) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name } })),
-    },
+    name: p.name,
+    description: p.metaDescription,
+    inLanguage: site.lang,
+    isPartOf: { '@id': WEBSITE_ID },
+    about: { '@id': BUSINESS_ID },
+    ...(imageUrl ? { primaryImageOfPage: { '@type': 'ImageObject', url: abs(imageUrl) } } : {}),
   };
 }
 

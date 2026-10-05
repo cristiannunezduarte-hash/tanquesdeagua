@@ -1,17 +1,22 @@
 # Imágenes del sitio
 
-Coloca aquí las fotos con estos nombres (JPG o PNG en buena calidad, idealmente ≥ 1600 px de ancho):
+Fotos descargadas en calidad original desde la página de Wix (`npm run imagenes:wix`).
+Astro las convierte automáticamente a AVIF/WebP en varios tamaños durante el build.
 
-| Archivo                  | Dónde se usa                               |
-| ------------------------ | ------------------------------------------ |
-| `hero.jpg`               | Portada (imagen principal)                 |
-| `equipo.jpg`             | "¿Por qué elegirnos?" y "Nosotros"         |
-| `lavado.jpg`             | Servicio de lavado y desinfección          |
-| `impermeabilizacion.jpg` | Servicio de impermeabilización             |
-| `mantenimiento.jpg`      | Servicio de mantenimiento y reparación     |
-| `instalacion.jpg`        | Servicio de venta e instalación            |
+| Archivo | Dónde se usa |
+| --- | --- |
+| `sistema-de-riego.jpg` | Portada (fondo) y sector agropecuario |
+| `tanque-agua-potable.png` | Producto: tanques de agua potable |
+| `agua-almacenada.jpg` | Ambiente agua potable / sector residencial |
+| `tanque-cafetero.jpg` | Producto: tanques cafeteros |
+| `tanque-ganadero-comedero.png` | Producto: tanques ganaderos |
+| `sector-ganadero.jpg` | Ambiente sector ganadero |
+| `sistema-septico.png` | Producto: sistemas sépticos |
+| `tratamiento-aguas-residuales.jpg` | Ambiente sistemas sépticos |
+| `valvula-de-bola.png` | Producto: valvulería |
+| `valvuleria-campo.jpg` | Ambiente valvulería |
+| `sector-construccion.jpg` | Sector construcción |
+| `asesoria-tecnica.jpg` | Nosotros |
 
-Mientras no existan, el sitio muestra una ilustración de respaldo.
-Para traer las imágenes actuales de Wix: `npm run imagenes:wix`.
-
-Consejo SEO: usa fotos reales de tu trabajo (no de stock) y nombres de archivo descriptivos.
+Consejo SEO: reemplaza poco a poco las fotos de banco por fotos reales de tu bodega, productos
+y entregas. Usa nombres de archivo descriptivos (p. ej. `tanque-2000-litros-polinter.jpg`).

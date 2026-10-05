@@ -5,212 +5,275 @@
  *  Todo el sitio (textos, SEO, datos estructurados, footer,
  *  botón de WhatsApp) se alimenta de este archivo.
  *
- *  ⚠️ Los valores marcados con  TODO  son de ejemplo:
- *  reemplázalos por los datos reales de la página de Wix
- *  antes de publicar. Google penaliza datos inconsistentes
- *  entre la web, Google Business Profile y directorios (NAP).
+ *  Datos tomados de la página de Wix. Los marcados con  TODO
+ *  hay que confirmarlos antes de publicar: Google penaliza datos
+ *  inconsistentes entre la web, Google Business Profile y
+ *  directorios (nombre, dirección y teléfono = NAP).
  * ============================================================
  */
 
 export const site = {
-  // TODO: dominio real que ya está en Cloudflare (sin barra final)
-  url: 'https://www.tanquesdeagua.com.co',
-  name: 'Tanques de Agua', // TODO: nombre comercial exacto
-  legalName: 'Tanques de Agua', // TODO: razón social si aplica
-  slogan: 'Agua limpia y segura para tu hogar y tu empresa',
+  // TODO: confirmar el dominio que está en Cloudflare (sin barra final)
+  url: 'https://www.dimaferyhermaco.com',
+  name: 'Dimafer & Hermaco',
+  legalName: 'Dimafer & Hermaco S.A.S.',
+  tagline: 'Tanques de agua',
+  slogan: 'Tanques de agua con la mejor resistencia y la asesoría que necesitas',
   description:
-    'Lavado, desinfección, impermeabilización y mantenimiento de tanques de agua potable para hogares, conjuntos residenciales y empresas. Cotiza gratis por WhatsApp.',
+    'Tanques de agua potable, tanques cafeteros y ganaderos, sistemas sépticos y valvulería en Bogotá. 45 años de experiencia y asesoría técnica especializada. ¡Cotiza ya!',
   locale: 'es_CO',
   lang: 'es-CO',
-  foundingYear: 2015, // TODO
+  foundingYear: 1980, // "45 años de experiencia" (TODO: confirmar año exacto)
 
   contact: {
-    phone: '+57 300 000 0000', // TODO: formato visible
-    phoneE164: '+573000000000', // TODO: formato internacional sin espacios
-    whatsapp: '573000000000', // TODO: solo dígitos, con indicativo
-    whatsappMessage: 'Hola, quiero cotizar un servicio para mi tanque de agua.',
-    email: 'contacto@tanquesdeagua.com.co', // TODO
+    phone: '310 850 0673',
+    phoneE164: '+573108500673',
+    whatsapp: '573108500673', // TODO: confirmar que este número tiene WhatsApp
+    whatsappMessage: 'Hola, quiero cotizar un tanque de agua.',
+    email: 'ventas@dimaferyhermaco.com',
   },
 
   address: {
-    street: 'Calle 00 # 00-00', // TODO (o déjalo vacío si atiendes solo a domicilio)
-    locality: 'Bogotá', // TODO
-    region: 'Cundinamarca', // TODO
-    postalCode: '110111', // TODO
+    street: 'Carrera 15 # 12-16',
+    locality: 'Bogotá',
+    region: 'Bogotá D.C.',
+    postalCode: '', // TODO
     country: 'CO',
-    geo: { lat: 4.711, lng: -74.0721 }, // TODO: coordenadas reales del negocio
-    mapsUrl: 'https://maps.google.com/?q=Bogot%C3%A1', // TODO: link de tu ficha de Google Business
+    geo: { lat: 4.6047, lng: -74.0836 }, // TODO: verificar con el pin exacto de Google Maps
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Carrera+15+%2312-16+Bogot%C3%A1', // TODO: link de la ficha de Google Business
   },
 
-  // Horario en formato schema.org (24 h)
-  openingHours: [
-    { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '07:00', closes: '18:00' },
-    { days: ['Saturday'], opens: '08:00', closes: '14:00' },
-  ],
-  openingHoursText: 'Lun a Vie 7:00 a.m. – 6:00 p.m. · Sáb 8:00 a.m. – 2:00 p.m.', // TODO
+  // Horario en formato schema.org (24 h). TODO: completar con el horario real.
+  // Ejemplo: { days: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '08:00', closes: '17:30' }
+  openingHours: [] as { days: string[]; opens: string; closes: string }[],
+  openingHoursText: '', // TODO: p. ej. 'Lun a Vie 8:00 a.m. – 5:30 p.m. · Sáb 8:00 a.m. – 1:00 p.m.'
 
-  // Ciudades / zonas donde prestas servicio (SEO local)
-  areaServed: ['Bogotá', 'Soacha', 'Chía', 'Cajicá', 'Zipaquirá', 'Mosquera', 'Funza', 'Madrid'], // TODO
+  // Zonas donde vendes / despachas (SEO local). TODO: ajustar
+  areaServed: ['Bogotá', 'Cundinamarca'],
 
   social: {
-    facebook: '', // TODO: https://facebook.com/...
+    facebook: '', // TODO
     instagram: '', // TODO
     tiktok: '',
     youtube: '',
   },
 
-  // Cifras de confianza (solo si son reales)
   stats: [
-    { value: '+10', label: 'años de experiencia' }, // TODO
-    { value: '+2.000', label: 'tanques atendidos' }, // TODO
-    { value: '24 h', label: 'respuesta a cotizaciones' }, // TODO
+    { value: '45', label: 'años de experiencia' },
+    { value: '5', label: 'líneas de producto' },
+    { value: '3', label: 'sectores atendidos' },
   ],
 } as const;
 
-export type Service = {
+export type IconName = 'droplet' | 'shield' | 'wrench' | 'tank' | 'pump' | 'flask' | 'coffee' | 'cow' | 'valve' | 'septic';
+
+export type Product = {
   slug: string;
   name: string;
+  /** Nombre corto para menús y el formulario */
   short: string;
-  /** Meta description de la página del servicio (≤ 155 caracteres) */
+  /** Resumen de 1–2 frases */
+  summary: string;
+  /** Meta description (≤ 155 caracteres) */
   metaDescription: string;
-  icon: 'droplet' | 'shield' | 'wrench' | 'tank' | 'pump' | 'flask';
-  /** Nombre del archivo en src/assets/images (opcional) */
-  image?: string;
-  intro: string;
-  includes: string[];
-  benefits: string[];
+  icon: IconName;
+  /** Foto del producto (fondo blanco) en src/assets/images */
+  image: string;
+  /** Foto de ambiente/uso en src/assets/images */
+  scene?: string;
+  intro: string[];
+  features: string[];
+  uses: string[];
   faqs: { q: string; a: string }[];
 };
 
-// TODO: ajustar a los servicios reales que ofrece el negocio en Wix
-export const services: Service[] = [
+export const products: Product[] = [
   {
-    slug: 'lavado-y-desinfeccion-de-tanques',
-    name: 'Lavado y desinfección de tanques',
-    short: 'Limpieza profunda, retiro de sedimentos y desinfección para mantener tu agua potable.',
+    slug: 'tanques-de-agua-potable',
+    name: 'Tanques de agua potable',
+    short: 'Tanque de agua potable',
+    summary:
+      'Diseñados para almacenar grandes volúmenes de agua y garantizar su disponibilidad para uso doméstico, industrial o agrícola.',
     metaDescription:
-      'Lavado y desinfección de tanques de agua potable con certificado. Retiro de lodos, cepillado y desinfección. Cotiza gratis por WhatsApp.',
-    icon: 'droplet',
-    image: 'lavado.jpg',
-    intro:
-      'Con el tiempo, los tanques acumulan lodo, sedimentos, biopelícula y microorganismos que afectan el sabor, el olor y la salud del agua. Nuestro servicio de lavado y desinfección deja tu tanque listo para almacenar agua apta para consumo.',
-    includes: [
-      'Inspección inicial del tanque y sus accesorios',
-      'Vaciado controlado y retiro de lodos y sedimentos',
-      'Cepillado de paredes, piso y tapa',
-      'Desinfección con productos aprobados para agua potable',
-      'Enjuague y llenado final',
-      'Certificado del servicio para tu administración o entidad de control',
-    ],
-    benefits: [
-      'Agua sin olores ni sabores extraños',
-      'Prevención de enfermedades de origen hídrico',
-      'Cumplimiento de la normativa sanitaria vigente',
-    ],
-    faqs: [
-      {
-        q: '¿Cada cuánto se debe lavar un tanque de agua?',
-        a: 'Se recomienda lavar y desinfectar los tanques de agua potable como mínimo cada seis meses, o antes si notas cambios en el color, olor o sabor del agua.',
-      },
-      {
-        q: '¿Cuánto tiempo me quedo sin agua durante el lavado?',
-        a: 'Depende de la capacidad del tanque. Un tanque residencial suele quedar listo en pocas horas; coordinamos el horario para que la interrupción sea mínima.',
-      },
-    ],
-  },
-  {
-    slug: 'impermeabilizacion-de-tanques',
-    name: 'Impermeabilización de tanques',
-    short: 'Sellamos fisuras y filtraciones con recubrimientos aptos para contacto con agua potable.',
-    metaDescription:
-      'Impermeabilización de tanques de agua en concreto y mampostería. Reparamos fisuras y filtraciones con materiales aptos para agua potable.',
-    icon: 'shield',
-    image: 'impermeabilizacion.jpg',
-    intro:
-      'Las filtraciones hacen perder agua, dañan la estructura y permiten la entrada de contaminantes. Impermeabilizamos tanques de concreto y mampostería con sistemas certificados para contacto con agua potable.',
-    includes: [
-      'Diagnóstico de fisuras y puntos de filtración',
-      'Preparación y limpieza de superficie',
-      'Tratamiento de fisuras y juntas',
-      'Aplicación de recubrimiento impermeable apto para agua potable',
-      'Prueba de estanqueidad',
-    ],
-    benefits: ['Cero pérdidas de agua', 'Mayor vida útil de la estructura', 'Agua protegida de contaminantes externos'],
-    faqs: [
-      {
-        q: '¿Cuánto dura una impermeabilización?',
-        a: 'Con un sistema adecuado y mantenimiento periódico, una impermeabilización puede durar varios años. Te damos garantía por escrito.',
-      },
-    ],
-  },
-  {
-    slug: 'mantenimiento-y-reparacion-de-tanques',
-    name: 'Mantenimiento y reparación',
-    short: 'Cambio de flotadores, registros, tapas y accesorios para que todo funcione sin fugas.',
-    metaDescription:
-      'Mantenimiento y reparación de tanques de agua: flotadores, registros, tapas, tuberías y accesorios. Servicio a domicilio. Cotiza gratis.',
-    icon: 'wrench',
-    image: 'mantenimiento.jpg',
-    intro:
-      'Un flotador dañado o una tapa en mal estado pueden desperdiciar cientos de litros o contaminar el agua. Revisamos y reparamos todos los componentes de tu sistema de almacenamiento.',
-    includes: [
-      'Revisión de flotadores, válvulas y registros',
-      'Cambio de tapas y accesorios',
-      'Reparación de fugas en tuberías de entrada y salida',
-      'Recomendaciones de mantenimiento preventivo',
-    ],
-    benefits: ['Menos consumo en la factura del agua', 'Sistema funcionando sin sorpresas', 'Atención a domicilio'],
-    faqs: [
-      {
-        q: '¿Atienden emergencias?',
-        a: 'Sí, según disponibilidad. Escríbenos por WhatsApp y te confirmamos el tiempo de llegada.',
-      },
-    ],
-  },
-  {
-    slug: 'venta-e-instalacion-de-tanques',
-    name: 'Venta e instalación de tanques',
-    short: 'Te asesoramos en la capacidad ideal e instalamos tu tanque con todos sus accesorios.',
-    metaDescription:
-      'Venta e instalación de tanques de agua plásticos de 250 a 5.000 litros. Asesoría en capacidad, instalación y accesorios. Cotiza gratis.',
+      'Tanques de agua potable para casa, edificio, industria y finca en Bogotá. Reserva de agua ante cortes o escasez. Asesoría para elegir la capacidad. Cotiza.',
     icon: 'tank',
-    image: 'instalacion.jpg',
-    intro:
-      'Te ayudamos a elegir la capacidad adecuada según el número de personas y el consumo, y realizamos la instalación completa con conexiones, flotador y accesorios.',
-    includes: [
-      'Asesoría de capacidad y ubicación',
-      'Suministro del tanque y accesorios',
-      'Instalación y conexión hidráulica',
-      'Prueba de funcionamiento',
+    image: 'tanque-agua-potable.png',
+    scene: 'agua-almacenada.jpg',
+    intro: [
+      'Nuestros tanques de agua están diseñados para almacenar grandes volúmenes de agua, garantizando su disponibilidad para uso doméstico, industrial o agrícola.',
+      'Son una reserva vital en situaciones de emergencia, cortes del servicio o escasez hídrica. Te asesoramos para elegir la capacidad y el tipo de tanque según tu consumo y el espacio disponible.',
     ],
-    benefits: ['Instalación segura y garantizada', 'Asesoría sin costo', 'Reserva de agua ante cortes'],
+    features: [
+      'Aptos para almacenar agua para consumo humano',
+      'Tapa de cierre para proteger el agua de contaminantes',
+      'Material resistente al sol y a la intemperie',
+      'Diferentes capacidades para cada necesidad', // TODO: listar capacidades disponibles (p. ej. 250 L a 20.000 L)
+    ],
+    uses: ['Casas y apartamentos', 'Edificios y conjuntos residenciales', 'Obras de construcción', 'Industria y comercio', 'Fincas'],
     faqs: [
       {
-        q: '¿Qué tamaño de tanque necesito?',
-        a: 'Como referencia, una persona consume en promedio entre 100 y 150 litros al día. Para una familia de 4 personas suele recomendarse un tanque de 1.000 litros o más.',
+        q: '¿Qué tamaño de tanque de agua necesito?',
+        a: 'Como referencia, una persona consume en promedio entre 100 y 150 litros de agua al día. Para una familia de 4 personas suele recomendarse un tanque de 1.000 litros o más para cubrir un día de corte. Te asesoramos sin costo según tu caso.',
+      },
+      {
+        q: '¿Los tanques sirven para agua de consumo humano?',
+        a: 'Sí, los tanques de agua potable están fabricados con materiales aptos para almacenar agua de consumo humano.',
       },
     ],
+  },
+  {
+    slug: 'tanques-cafeteros',
+    name: 'Tanques para el sector cafetero',
+    short: 'Tanque cafetero',
+    summary:
+      'Alternativas para acompañar al caficultor en las diferentes etapas del proceso, con ahorro en el consumo general de agua.',
+    metaDescription:
+      'Tanques cafeteros con bordes redondeados y vida útil de hasta 15 años. Ahorra agua en el beneficio del café. Asesoría técnica y cotización en Bogotá.',
+    icon: 'coffee',
+    image: 'tanque-cafetero.jpg',
+    intro: [
+      'Ofrecemos alternativas para acompañar al productor de café en las diferentes etapas del proceso, dando como resultado un ahorro en el consumo general del agua.',
+      'Están diseñados con bordes redondeados que otorgan mayor resistencia y una vida útil de hasta 15 años.',
+    ],
+    features: [
+      'Bordes redondeados para mayor resistencia',
+      'Vida útil de hasta 15 años',
+      'Diseño que facilita el ahorro de agua en el proceso',
+      'Fondo cónico con salida inferior para facilitar el vaciado',
+    ],
+    uses: ['Beneficio del café', 'Fermentación y lavado', 'Fincas cafeteras'],
+    faqs: [
+      {
+        q: '¿Cuánto dura un tanque cafetero?',
+        a: 'Gracias a su diseño con bordes redondeados, nuestros tanques cafeteros tienen una vida útil de hasta 15 años.',
+      },
+    ],
+  },
+  {
+    slug: 'tanques-ganaderos',
+    name: 'Tanques para el sector ganadero',
+    short: 'Tanque ganadero',
+    summary:
+      'Bebederos y comederos que proporcionan agua y comida fresca y limpia a los animales de forma continua.',
+    metaDescription:
+      'Tanques ganaderos, bebederos y comederos para ganado. Agua y alimento limpios de forma continua para mejor salud y producción. Cotiza en Bogotá.',
+    icon: 'cow',
+    image: 'tanque-ganadero-comedero.png',
+    scene: 'sector-ganadero.jpg',
+    intro: [
+      'Tanques diseñados para proporcionar agua y comida fresca y limpia a los animales de forma continua, promoviendo la hidratación, la alimentación y el bienestar del ganado.',
+      'Un buen suministro de agua y alimento se traduce en mejoras en la salud de los animales y en el rendimiento de la producción.',
+    ],
+    features: [
+      'Bebederos y comederos de alta resistencia',
+      'Fáciles de limpiar',
+      'Resistentes al sol y al uso en potrero',
+      'Ayudan a mantener agua y alimento limpios',
+    ],
+    uses: ['Ganadería de leche', 'Ganadería de carne', 'Porcicultura y otras especies'],
+    faqs: [
+      {
+        q: '¿Qué beneficios tiene un buen bebedero para el ganado?',
+        a: 'Garantiza agua limpia y disponible de forma continua, lo que mejora la hidratación, la salud y la productividad de los animales.',
+      },
+    ],
+  },
+  {
+    slug: 'sistemas-septicos',
+    name: 'Sistemas sépticos',
+    short: 'Sistema séptico',
+    summary:
+      'Solución eficiente para el tratamiento de aguas residuales, de fácil instalación y mantenimiento.',
+    metaDescription:
+      'Sistemas sépticos para tratamiento de aguas residuales en fincas, casas campestres y obras. Fácil instalación y mantenimiento. Asesoría y cotización.',
+    icon: 'septic',
+    image: 'sistema-septico.png',
+    scene: 'tratamiento-aguas-residuales.jpg',
+    intro: [
+      'Los sistemas sépticos son una solución eficiente para el tratamiento de aguas residuales donde no hay conexión al alcantarillado.',
+      'Contribuyen a la conservación del medio ambiente y a la salud pública, con una gran facilidad de instalación y mantenimiento.',
+    ],
+    features: [
+      'Tanque séptico, trampa de grasas y caja de distribución',
+      'Fácil instalación',
+      'Bajo mantenimiento',
+      'Protege fuentes de agua y suelos',
+    ],
+    uses: ['Fincas y casas campestres', 'Condominios rurales', 'Obras y campamentos', 'Restaurantes en carretera'],
+    faqs: [
+      {
+        q: '¿Para qué sirve un sistema séptico?',
+        a: 'Trata las aguas residuales de viviendas o instalaciones que no están conectadas al alcantarillado, evitando la contaminación del suelo y de las fuentes de agua.',
+      },
+      {
+        q: '¿Qué tamaño de sistema séptico necesito?',
+        a: 'Depende del número de personas que usan la vivienda o instalación. Cuéntanos tu caso y te asesoramos.',
+      },
+    ],
+  },
+  {
+    slug: 'valvuleria',
+    name: 'Valvulería',
+    short: 'Valvulería',
+    summary:
+      'Válvulas de compuerta, bola y mariposa para controlar el flujo de líquidos y gases.',
+    metaDescription:
+      'Valvulería en Bogotá: válvulas de bola, compuerta y mariposa para sistemas hidráulicos, industriales y agrícolas. Asesoría técnica y cotización.',
+    icon: 'valve',
+    image: 'valvula-de-bola.png',
+    scene: 'valvuleria-campo.jpg',
+    intro: [
+      'Las válvulas son dispositivos clave para controlar el flujo de líquidos y gases en sistemas residenciales, industriales y agrícolas.',
+      'Están disponibles en varios tipos, como compuerta, bola y mariposa, cada uno diseñado para adaptarse a diferentes aplicaciones y necesidades específicas.',
+    ],
+    features: ['Válvulas de bola', 'Válvulas de compuerta', 'Válvulas de mariposa', 'Diferentes diámetros y materiales'],
+    uses: ['Redes hidráulicas', 'Sistemas de riego', 'Industria', 'Construcción'],
+    faqs: [
+      {
+        q: '¿Qué diferencia hay entre una válvula de bola y una de compuerta?',
+        a: 'La válvula de bola abre y cierra con un cuarto de vuelta y es ideal para cortes rápidos; la de compuerta abre y cierra de forma gradual y se usa cuando la válvula permanece totalmente abierta o cerrada por largos periodos.',
+      },
+    ],
+  },
+];
+
+export const sectors = [
+  {
+    name: 'Residencial',
+    text: 'Almacenamiento de agua para casas, edificios y conjuntos. Reserva ante cortes del servicio.',
+    image: 'agua-almacenada.jpg',
+  },
+  {
+    name: 'Construcción',
+    text: 'Suministro de tanques, sistemas sépticos y valvulería para obras y proyectos.',
+    image: 'sector-construccion.jpg',
+  },
+  {
+    name: 'Agropecuario',
+    text: 'Soluciones para fincas cafeteras, ganaderas y sistemas de riego.',
+    image: 'sistema-de-riego.jpg',
   },
 ];
 
 // Preguntas frecuentes generales (página de inicio + schema FAQPage)
 export const faqs = [
   {
-    q: '¿Por qué es importante lavar el tanque de agua?',
-    a: 'Porque en su interior se acumulan sedimentos, lodo y microorganismos que deterioran la calidad del agua y pueden causar enfermedades gastrointestinales y de la piel.',
+    q: '¿Qué productos venden?',
+    a: 'Tanques de agua potable, tanques para el sector cafetero, tanques y bebederos para el sector ganadero, sistemas sépticos y valvulería.',
   },
   {
-    q: '¿Entregan certificado del servicio?',
-    a: 'Sí. Al terminar entregamos un certificado del servicio, útil para administraciones de propiedad horizontal, colegios, restaurantes y entidades de control.',
+    q: '¿Ofrecen asesoría para elegir el tanque?',
+    a: 'Sí. Te ayudamos a elegir el tipo y la capacidad ideal, y acompañamos con asesoría y servicio técnico especializado para diseñar, implementar y mantener tu sistema de agua.',
+  },
+  {
+    q: '¿Dónde están ubicados?',
+    a: `Estamos en ${site.address.street}, ${site.address.locality}, Colombia.`,
   },
   {
     q: '¿Cómo puedo cotizar?',
-    a: 'Escríbenos por WhatsApp o llena el formulario indicando la capacidad aproximada del tanque y la dirección. Respondemos el mismo día hábil.',
+    a: 'Escríbenos por WhatsApp, llámanos o llena el formulario indicando el producto que te interesa. Te respondemos lo antes posible.',
   },
-  {
-    q: '¿En qué zonas prestan servicio?',
-    a: `Atendemos ${site.areaServed.join(', ')} y alrededores.`,
-  },
+  // TODO: agregar "¿Hacen envíos fuera de Bogotá?" con la respuesta real
 ];
 
 export const testimonials: { name: string; place: string; text: string }[] = [
