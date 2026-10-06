@@ -4,15 +4,15 @@
    TODO: ajustar --brand-* a los colores exactos de la marca en Wix.
    ========================================================== */
 :root {
-  /* Paleta de la marca (tomada del sitio en Wix): lima, oliva y mostaza */
-  --brand-900: #23261c; /* oliva muy oscuro: fondos oscuros */
-  --brand-800: #363a2c; /* oliva oscuro (Wix color_14) */
-  --brand-700: #4c5a1f; /* verde oliva para enlaces y títulos */
-  --brand-600: #5d6e22; /* verde principal (botones secundarios) */
-  --brand-500: #6d7457; /* oliva medio (Wix color_13, barra de menú) */
-  --brand-100: #e9f1cf; /* lima claro */
-  --brand-50: #f5f9e8;
-  --lime-300: #d9e8ae; /* lima (Wix color_11, fondo) */
+  /* Paleta: azul agua como color principal + mostaza para botones */
+  --brand-900: #0a2236; /* azul marino: fondos oscuros */
+  --brand-800: #0f3552;
+  --brand-700: #125a86;
+  --brand-600: #1679a6;
+  --brand-500: #4f7a96;
+  --brand-100: #e2f1f8;
+  --brand-50: #f2f8fc;
+  --lime-300: #8fd3ea; /* celeste claro */
   --mustard-500: #cfc62d; /* mostaza (Wix: botones) */
   --mustard-600: #b8af1c;
   /* Acento "agua": solo en enlaces, íconos y detalles (no en botones) */
@@ -24,17 +24,17 @@
   --accent: #25d366; /* WhatsApp */
   --accent-dark: #128c4a;
 
-  --ink: #1d2016;
-  --ink-soft: #565c49;
-  --line: #e1e5d3;
+  --ink: #0f1d2a;
+  --ink-soft: #4a5b6b;
+  --line: #dbe6ee;
   --bg: #ffffff;
-  --bg-soft: #f6f8ee;
+  --bg-soft: #f3f8fb;
 
   --radius-sm: 10px;
   --radius: 18px;
   --radius-lg: 28px;
-  --shadow-sm: 0 1px 2px rgb(35 38 28 / 0.06), 0 2px 8px rgb(35 38 28 / 0.06);
-  --shadow: 0 12px 32px -12px rgb(35 38 28 / 0.3);
+  --shadow-sm: 0 1px 2px rgb(10 34 54 / 0.06), 0 2px 8px rgb(10 34 54 / 0.06);
+  --shadow: 0 12px 32px -12px rgb(10 34 54 / 0.3);
   --container: 1180px;
   --gutter: clamp(16px, 4vw, 32px);
 
@@ -132,7 +132,7 @@ p {
   background: var(--bg-soft);
 }
 .section--dark {
-  background: radial-gradient(1200px 500px at 80% -10%, #4c5a1f 0%, transparent 60%), var(--brand-900);
+  background: radial-gradient(1200px 500px at 80% -10%, #135d8e 0%, transparent 60%), var(--brand-900);
   color: #e4e8d6;
 }
 .section--dark h2,
